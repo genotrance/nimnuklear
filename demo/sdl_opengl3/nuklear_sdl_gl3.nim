@@ -330,8 +330,7 @@ proc nk_sdl_font_stash_end*() =
     nuklear.style_set_font(addr(sdl.ctx), addr(sdl.atlas.default_font.handle))
 
 proc nk_sdl_handle_event*(evt: ptr sdl2.Event): cint =
-  ## FIXME: How do I get raw scancode values from sdl2?
-  const SCANCODE_LCTRL = 224
+  const SCANCODE_LCTRL = system.int(sdl2.SDL_SCANCODE_LCTRL)
   var ctx: ptr nuklear.context = addr(sdl.ctx)
   if evt.kind == sdl2.KeyUp or evt.kind == sdl2.KeyDown:
     ##  key events
