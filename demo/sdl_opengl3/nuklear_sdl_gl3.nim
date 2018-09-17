@@ -284,12 +284,12 @@ proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
   glDisable(GL_BLEND)
   glDisable(GL_SCISSOR_TEST)
 
-proc nk_sdl_clipbard_paste*(usr: nuklear.handle; edit: ptr nuklear.text_edit) =
+proc nk_sdl_clipbard_paste*(usr: nuklear.handle; edit: ptr nuklear.text_edit) {.cdecl.} =
   var text: cstring = sdl2.getClipboardText()
   if not text.isNil:
     discard nuklear.textedit_paste(edit, text, nuklear.strlen(text))
 
-proc nk_sdl_clipbard_copy*(usr: nuklear.handle; text: cstring; len: cint) =
+proc nk_sdl_clipbard_copy*(usr: nuklear.handle; text: cstring; len: cint) {.cdecl.} =
   var str: cstring = nil
   if len == 0:
     return
