@@ -142,6 +142,14 @@ proc nk_sdl_device_destroy*() =
   glDeleteBuffers(1, addr(dev.ebo))
   nuklear.buffer_free(addr(dev.cmds))
 
+#define nk_draw_foreach(cmd,ctx, b) for((cmd)=nk__draw_begin(ctx, b); (cmd)!=0; (cmd)=nk__draw_next(cmd, b, ctx))
+## FIXME: Put this in the nuklear implementation itself
+iterator draw_foreach(ctx: ptr nuklear.context, b: ptr nuklear.buffer): ptr nuklear.draw_command =
+  var cmd = nuklear.draw_begin(ctx, b)
+  while not cmd.isNil:
+    yield cmd
+    cmd = nuklear.draw_next(cmd, b, ctx)
+
 proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
                    max_element_buffer: cint) =
   var dev: ptr Sdl_device = addr(sdl.ogl)
@@ -251,12 +259,7 @@ proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
   discard glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER)
 
   ##  iterate over and execute each draw command
-  ## define nk_draw_foreach(cmd,ctx, b) for((cmd)=nk__draw_begin(ctx, b); (cmd)!=0; (cmd)=nk__draw_next(cmd, b, ctx))
-  ## FIXME: This should probably be an iterator
-  ## FIXME: I don't think these draw iterator functions import the correct
-  ##        symbol.
-  cmd = nuklear.draw_begin(addr sdl.ctx, addr dev.cmds)
-  while not cmd.isNil:
+  for cmd in draw_foreach(addr sdl.ctx, addr dev.cmds):
     if cmd.elem_count == 0:
       continue
 
@@ -271,8 +274,6 @@ proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
 
     # The original code is offset += cmd->elem_count.
     inc(offset, system.int(cmd.elem_count) * sizeof(nuklear.draw_index))
-
-    cmd = nuklear.draw_next(cmd, addr dev.cmds, addr sdl.ctx)
 
   nuklear.clear(addr(sdl.ctx))
 
