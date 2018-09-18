@@ -132,8 +132,8 @@ while running == 1:
     const
       EASY = 0
       HARD = 1
-    var op: cint = EASY
-    var property: cint = 20
+    var op {.global.}: cint = EASY
+    var property {.global.}: cint = 20
 
     nuklear.layout_row_static(ctx, 30, 80, 1)
     if nuklear.button_label(ctx, "button") == 1:
