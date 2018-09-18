@@ -209,17 +209,17 @@ proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
     nuklear.draw_vertex_layout_element(
       attribute: nuklear.VERTEX_POSITION,
       format: nuklear.FORMAT_FLOAT,
-      offset: nil
+      offset: cast[ptr nuklear.uint](0)
     ),
     nuklear.draw_vertex_layout_element(
       attribute: nuklear.VERTEX_TEXCOORD,
       format: nuklear.FORMAT_FLOAT,
-      offset: nil
+      offset: cast[ptr nuklear.uint](sizeof(Sdl_vertex.position))
     ),
     nuklear.draw_vertex_layout_element(
       attribute: nuklear.VERTEX_COLOR,
       format: nuklear.FORMAT_R8G8B8A8,
-      offset: nil
+      offset: cast[ptr nuklear.uint](sizeof(Sdl_vertex.position) + sizeof(Sdl_vertex.uv))
     ),
     # NK_VERTEX_LAYOUT_END
     nuklear.draw_vertex_layout_element(
