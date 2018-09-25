@@ -1,6 +1,7 @@
 ##  nuklear - 1.32.0 - public domain
 
-import nimnuklear/nuklear, opengl, sdl2
+import nimnuklear/nuklear except true, false
+import opengl, sdl2
 
 import nuklear_sdl_gl3
 
@@ -17,31 +18,24 @@ const
 ##  ===============================================================
 ##  This are some code examples to provide a small overview of what can be
 ##  done with this library. To try out an example uncomment the defines
-## #define INCLUDE_ALL
-## #define INCLUDE_STYLE
-## #define INCLUDE_CALCULATOR
-## #define INCLUDE_OVERVIEW
-## #define INCLUDE_NODE_EDITOR
+const INCLUDE_STYLE = false
+const INCLUDE_CALCULATOR = true
+const INCLUDE_OVERVIEW = false
+const INCLUDE_NODE_EDITOR = false
 
-when defined(INCLUDE_ALL):
-  const
-    INCLUDE_STYLE* = true
-    INCLUDE_CALCULATOR* = true
-    INCLUDE_OVERVIEW* = true
-    INCLUDE_NODE_EDITOR* = true
-when defined(INCLUDE_STYLE):
+when INCLUDE_STYLE:
   import
     ../style
 
-when defined(INCLUDE_CALCULATOR):
+when INCLUDE_CALCULATOR:
   import
     ../calculator
 
-when defined(INCLUDE_OVERVIEW):
+when INCLUDE_OVERVIEW:
   import
     ../overview
 
-when defined(INCLUDE_NODE_EDITOR):
+when INCLUDE_NODE_EDITOR:
   import
     ../node_editor
 
@@ -137,8 +131,8 @@ while running == 1:
     const
       EASY = 0
       HARD = 1
-    var op: cint = EASY
-    var property: cint = 20
+    var op {.global.}: cint = EASY
+    var property {.global.}: cint = 20
 
     nuklear.layout_row_static(ctx, 30, 80, 1)
     if nuklear.button_label(ctx, "button") == 1:
@@ -167,11 +161,11 @@ while running == 1:
   nuklear.end(ctx)
 
   ##  -------------- EXAMPLES ----------------
-  when defined(INCLUDE_CALCULATOR):
-    calculator(ctx)
-  when defined(INCLUDE_OVERVIEW):
+  when INCLUDE_CALCULATOR:
+    calculator.calculator(ctx)
+  when INCLUDE_OVERVIEW:
     overview(ctx)
-  when defined(INCLUDE_NODE_EDITOR):
+  when INCLUDE_NODE_EDITOR:
     node_editor(ctx)
   ##  -----------------------------------------
 
