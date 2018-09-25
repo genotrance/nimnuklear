@@ -70,6 +70,10 @@ var bg: nuklear.colorf
 
 ##  SDL setup
 discard sdl2.setHint("SDL_VIDEO_HIGHDPI_DISABLED", "0")
+when not defined(vcc):
+  ## [AM] Needed to ensure that gdb doesn't get confused by SDL's attempts
+  ##      at renaming threads on Windows using RaiseException.
+  discard sdl2.setHint("SDL_WINDOWS_DISABLE_THREAD_NAMING", "1")
 sdl2.init(sdl2.INIT_VIDEO or sdl2.INIT_TIMER or sdl2.INIT_EVENTS)
 discard sdl2.glSetAttribute(SDL_GL_CONTEXT_FLAGS,
                             SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG)
