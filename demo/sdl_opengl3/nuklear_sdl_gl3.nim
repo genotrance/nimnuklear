@@ -14,7 +14,7 @@
 
 import opengl, sdl2
 
-import nimnuklear/nuklear
+import nimnuklear/nuklear except key
 
 ## 
 ##  ==============================================================
