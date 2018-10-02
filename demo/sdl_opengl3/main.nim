@@ -113,7 +113,7 @@ bg.b = 0.24
 bg.a = 1.0
 while running == 1:
   ##  Input
-  var evt: sdl2.Event
+  var evt: sdl2.Event = sdl2.defaultEvent
   nuklear.input_begin(ctx)
   while sdl2.pollEvent(evt):
     if evt.kind == QuitEvent:
