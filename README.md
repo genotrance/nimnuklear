@@ -16,13 +16,9 @@ This will download, wrap and install nimnuklear in the standard Nimble package l
 
 __Usage__
 
-```nim
-import nimnuklear/nuklear
+Module documentation can be found [here](http://nimgen.genotrance.com/nimnuklear).
 
-# TBD
-```
-
-Refer to the ```tests``` directory for examples on how the library can be used.
+Refer to the ```demo``` directory for examples on how the library can be used.
 
 __Credits__
 
