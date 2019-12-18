@@ -1,6 +1,6 @@
 ##  nuklear - 1.32.0 - public domain
 
-import nimnuklear/nuklear except true, false
+import nimnuklear
 import opengl, sdl2
 
 import nuklear_sdl_gl3

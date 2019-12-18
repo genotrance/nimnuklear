@@ -14,7 +14,7 @@
 
 import opengl, sdl2
 
-import nimnuklear/nuklear except key
+import nimnuklear except key
 
 ## 
 ##  ==============================================================
@@ -26,8 +26,8 @@ import nimnuklear/nuklear except key
 
 type
   Sdl_device* {.bycopy.} = object
-    cmds*: nuklear.buffer
-    null*: nuklear.draw_null_texture
+    cmds*: buffer
+    null*: draw_null_texture
     vbo*: GLuint
     vao*: GLuint
     ebo*: GLuint
@@ -45,7 +45,7 @@ type
   Sdl_vertex* {.bycopy.} = object
     position*: array[2, cfloat]
     uv*: array[2, cfloat]
-    col*: array[4, nuklear.byte]
+    col*: array[4, nimnuklear.byte]
 
 type
   Sdl* {.bycopy.} = object
@@ -69,7 +69,7 @@ proc nk_sdl_device_create*() =
   defer: deallocCStringArray(fragment_shader_z)
 
   var dev: ptr Sdl_device = addr(sdl.ogl)
-  nuklear.buffer_init_default(addr(dev.cmds))
+  buffer_init_default(addr(dev.cmds))
   dev.prog = glCreateProgram()
   dev.vert_shdr = glCreateShader(GL_VERTEX_SHADER)
   dev.frag_shdr = glCreateShader(GL_FRAGMENT_SHADER)
@@ -140,17 +140,17 @@ proc nk_sdl_device_destroy*() =
   glDeleteTextures(1, addr(dev.font_tex))
   glDeleteBuffers(1, addr(dev.vbo))
   glDeleteBuffers(1, addr(dev.ebo))
-  nuklear.buffer_free(addr(dev.cmds))
+  buffer_free(addr(dev.cmds))
 
 #define nk_draw_foreach(cmd,ctx, b) for((cmd)=nk__draw_begin(ctx, b); (cmd)!=0; (cmd)=nk__draw_next(cmd, b, ctx))
 ## FIXME: Put this in the nuklear implementation itself
-iterator draw_foreach(ctx: ptr nuklear.context, b: ptr nuklear.buffer): ptr nuklear.draw_command =
-  var cmd = nuklear.draw_begin(ctx, b)
+iterator draw_foreach(ctx: ptr context, b: ptr buffer): ptr draw_command =
+  var cmd = x_draw_begin(ctx, b)
   while not cmd.isNil:
     yield cmd
-    cmd = nuklear.draw_next(cmd, b, ctx)
+    cmd = x_draw_next(cmd, b, ctx)
 
-proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
+proc nk_sdl_render*(AA: anti_aliasing; max_vertex_buffer: cint;
                    max_element_buffer: cint) =
   var dev: ptr Sdl_device = addr(sdl.ogl)
   var
@@ -159,7 +159,7 @@ proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
   var
     display_width: cint
     display_height: cint
-  var scale: nuklear.vec2
+  var scale: vec2
   var ortho: array[4, array[4, GLfloat]] = [
     [2.0'f32, 0.0'f32, 0.0'f32, 0.0'f32],
     [0.0'f32, -2.0'f32, 0.0'f32, 0.0'f32],
@@ -192,12 +192,12 @@ proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
 
   ##  convert from command queue into draw list and draw to screen
   var
-    cmd: ptr nuklear.draw_command
+    cmd: ptr draw_command
     vertices: pointer
     elements: pointer
     offset: system.uint = 0
-    vbuf: nuklear.buffer
-    ebuf: nuklear.buffer
+    vbuf: buffer
+    ebuf: buffer
 
   ##  allocate vertex and element buffer
   glBindVertexArray(dev.vao)
@@ -212,9 +212,9 @@ proc nk_sdl_render*(AA: nuklear.anti_aliasing; max_vertex_buffer: cint;
   elements = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY)
 
   ##  fill convert configuration
-  var config: nuklear.convert_config
-  var vertex_layout {.global.}: array[4, nuklear.draw_vertex_layout_element] = [
-    nuklear.draw_vertex_layout_element(
+  var config: convert_config
+  var vertex_layout {.global.}: array[4, draw_vertex_layout_element] = [
+    draw_vertex_layout_element(
       attribute: nuklear.VERTEX_POSITION,
       format: nuklear.FORMAT_FLOAT,
       offset: cast[ptr nuklear.uint](0)
