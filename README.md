@@ -1,6 +1,6 @@
 Nimnuklear is a [Nim](https://nim-lang.org/) wrapper for the [nuklear](https://github.com/vurtun/nuklear) library.
 
-Nimnuklear is distributed as a [Nimble](https://github.com/nim-lang/nimble) package and depends on [nimgen](https://github.com/genotrance/nimgen) and [c2nim](https://github.com/nim-lang/c2nim/) to generate the wrappers. The nuklear source code is downloaded using Git so having ```git``` in the path is required.
+Nimnuklear is distributed as a [Nimble](https://github.com/nim-lang/nimble) package and depends on [nimterop](https://github.com/nimterop/nimterop) to generate the wrappers. The nuklear source code is downloaded using Git so having ```git``` in the path is required.
 
 __Installation__
 
@@ -14,15 +14,11 @@ This will download, wrap and install nimnuklear in the standard Nimble package l
 
 __Usage__
 
-Module documentation can be found [here](http://nimgen.genotrance.com/nimnuklear).
-
 Refer to the ```demo``` directory for examples on how the library can be used.
 
 __Credits__
 
 Nimnuklear wraps the nuklear source code and all licensing terms of [nuklear](https://raw.githubusercontent.com/vurtun/nuklear/master/src/LICENSE) apply to the usage of this package.
-
-Credits go out to [c2nim](https://github.com/nim-lang/c2nim/) as well without which this package would be greatly limited in its abilities.
 
 __Feedback__
 
